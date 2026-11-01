@@ -1,5 +1,5 @@
 {
-  "name": "x-twitter",
+  "name": "x",
   "version": "0.1.0",
   "description": "magpie tools plugin: X (Twitter) search for every agent behind magpie, powered by the Grok (SuperGrok) provider you already signed in to",
   "type": "module",
