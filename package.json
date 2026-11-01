@@ -1,0 +1,21 @@
+{
+  "name": "magpie-x-search",
+  "version": "0.1.0",
+  "description": "magpie tools plugin: X (Twitter) search for every agent behind magpie, powered by the Grok (SuperGrok) provider you already signed in to",
+  "type": "module",
+  "main": "./index.mjs",
+  "exports": "./index.mjs",
+  "files": ["index.mjs", "README.md", "LICENSE"],
+  "scripts": { "test": "node --test" },
+  "engines": { "node": ">=20" },
+  "keywords": [
+    "magpie", "magpie-plugin", "magpie-tools", "tools", "mcp",
+    "x-search", "x", "twitter", "twitter-search", "tweets", "x-twitter", "social-search", "realtime-search", "search",
+    "grok", "supergrok", "xai", "x_search"
+  ],
+  "repository": { "type": "git", "url": "git+https://github.com/hyspace/magpie-x-search.git" },
+  "homepage": "https://github.com/hyspace/magpie-x-search#readme",
+  "bugs": { "url": "https://github.com/hyspace/magpie-x-search/issues" },
+  "author": "hyspace",
+  "license": "MIT"
+}
