@@ -2,7 +2,7 @@
 
 **X (Twitter) search for every agent behind [magpie](https://usemagpie.ai)**: a magpie *tools* plugin.
 
-It adds one tool, `x_search`, that searches public X/Twitter posts (tweets) in real time using Grok's native X search. The search runs through the **Grok (SuperGrok) provider you already signed in to in magpie**, so there is no extra API key and the plugin never sees your credentials. Because magpie serves plugin tools to *all* agents, Claude Code on Kimi, Codex on DeepSeek, Pi, Hermes… anything that can use magpie's MCP endpoint gets Twitter search, whatever model it runs on.
+It adds one tool, `x-twitter_search` (`<plugin>_<tool>`; the plugin is named `x-twitter`), that searches public X/Twitter posts (tweets) in real time using Grok's native X search. The search runs through the **Grok (SuperGrok) provider you already signed in to in magpie**, so there is no extra API key and the plugin never sees your credentials. Because magpie serves plugin tools to *all* agents, Claude Code on Kimi, Codex on DeepSeek, Pi, Hermes… anything that can use magpie's MCP endpoint gets Twitter search, whatever model it runs on.
 
 > 中文简介：把 magpie 里登录的 SuperGrok 的 X（推特）搜索做成 magpie 工具插件，所有走 magpie 的 agent（不论底层模型）都能搜推特。
 
@@ -16,7 +16,9 @@ It adds one tool, `x_search`, that searches public X/Twitter posts (tweets) in r
 
 ```bash
 magpie plugin add github:hyspace/magpie-x-search
-magpie tools                      # should list x_search under "tools"
+# private fork or no GitHub API access? use git over ssh:
+# magpie plugin add git+ssh://git@github.com/hyspace/magpie-x-search.git
+magpie tools                      # should list x-twitter_search under "tools"
 ```
 
 Then let your agents see it. Pick one:
@@ -25,8 +27,8 @@ Then let your agents see it. Pick one:
 # A. one MCP entry (magpie) for every agent, including all plugin tools: recommended
 magpie library mcp router on
 
-# B. or give just this tool to chosen agents (use the name `magpie library` shows)
-magpie library mcp agents <name> pi,hermes
+# B. or give just this tool to chosen agents
+magpie library mcp agents x-twitter pi,hermes
 ```
 
 `magpie library` shows the entry and which agents have it. Restart an agent session after changing its tools. The raw endpoint is `http://127.0.0.1:3425/mcp/magpie/tools` (Streamable HTTP) if you want to add it by hand, e.g.
@@ -35,10 +37,10 @@ magpie library mcp agents <name> pi,hermes
 Try it without any agent:
 
 ```bash
-magpie tool x_search --query "what is @karpathy posting about?" --allowed_x_handles karpathy
+magpie tool x-twitter_search --query "what is @karpathy posting about?" --allowed_x_handles karpathy
 ```
 
-## Tool: `x_search`
+## Tool: `x-twitter_search`
 
 | arg | description |
 |---|---|
@@ -55,10 +57,8 @@ Returns Grok's summary of what it found plus the source post URLs.
 ## Configuration
 
 ```bash
-magpie plugin options <plugin> '{"perMinute":10,"cacheSec":600}'     # 'off' clears
+magpie plugin options x-twitter '{"perMinute":10,"cacheSec":600}'     # 'off' clears
 ```
-
-(`<plugin>` is the name `magpie plugin` lists.)
 
 | option | default | |
 |---|---|---|
@@ -85,7 +85,7 @@ The tool calls magpie's own gateway: `POST /v1/responses` with `model: grok/…`
 
 ```bash
 npm test                      # fake gateway, no network
-magpie plugin add ./          # load this checkout in place (the folder name becomes the tool prefix)
+magpie plugin add ./          # load this checkout in place (the tool prefix is the package name)
 ```
 
 The module exports exactly one function (`XSearchTools`): magpie calls every export as a plugin.
